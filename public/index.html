@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>P2P Messenger</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.18.3/index.js"></script>
+</head>
+<body>
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <div class="form-switch">
+                <button class="switch-btn active" data-form="login">Login</button>
+                <button class="switch-btn" data-form="signup">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form" onsubmit="return handleLogin(event)">
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="loginUsername" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+                <p id="loginError" class="error-message"></p>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="auth-form hidden" onsubmit="return handleSignup(event)">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="signupUsername" placeholder="Choose Username" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPassword" placeholder="Choose Password" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="auth-btn">Sign Up</button>
+                <p id="signupError" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar / Chat List -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Active Users</h2>
+            </div>
+            <div class="active-users">
+                <!-- Active users will be added here dynamically -->
+            </div>
+            <div class="connection-info">
+                <!-- Connection status will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <section class="chat__section">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <h1>Welcome to P2P Messenger</h1>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="action-btn" onclick="toggleSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                    <button class="action-btn logout" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="message__area">
+                <div class="secure-message">
+                    <i class="fas fa-lock"></i> Messages are end-to-end encrypted
+                </div>
+                <!-- Messages will be added here -->
+            </div>
+            
+            <div class="input-area">
+                <button class="emoji-btn"><i class="far fa-smile"></i></button>
+                <div class="emoji-picker-container">
+                    <emoji-picker class="light"></emoji-picker>
+                </div>
+                <input type="text" id="messageInput" class="message-input" placeholder="Type a message...">
+                <div class="input-actions">
+                    <button id="attachButton" class="action-btn"><i class="fas fa-paperclip"></i></button>
+                    <button id="voiceButton" class="action-btn"><i class="fas fa-microphone"></i></button>
+                    <button onclick="sendMessage()" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="encryption.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
